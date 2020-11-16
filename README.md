@@ -5,19 +5,22 @@
 - Docker Desktop for Macをインストールしておいてください。
 
 # 環境構築手順
+### リポジトリのクローン
 - このリポジトリをforkする。
 - forkしたリポジトリをローカルにcloneする。
 ### Djangoプロジェクト用Dockerイメージの作成
 
 clone したディレクトリに移動して、その直下にある Dockerfile から Docker イメージを作成します。
 ```command
-$ cd django-project/
-$ docker build -t django-project .
+$ cd apartment_hunting/
+$ docker build -t apartment_hunting .
 ```
 ### Dockerコンテナの実行
 作成したイメージを使ってDockerコンテナを作成、実行し、bashを起動します。
+$(pwd)の部分はクローンしたリポジトリのPATHを指定してください。
+
 ```command
-$ docker run --rm -it -p 8000:8000 -v $(pwd):/root/django-project django-project
+$ docker run --rm -it -p 8000:8000 -v $(pwd):/root/apartment_hunting apartment_hunting
 ```
 
 ### サーバーの起動
