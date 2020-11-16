@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONIOENCODING utf-8
 
 ENV HOME /root
-ENV DEPLOY_DIR ${HOME}/mysite
+ENV DEPLOY_DIR ${HOME}/apartment_hunting
 
 RUN apt-get update
 
