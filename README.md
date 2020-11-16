@@ -24,8 +24,13 @@ $ docker run --rm -it -p 8000:8000 -v $(pwd):/root/apartment_hunting apartment_h
 ```
 
 ### サーバーの起動
-起動したコンテナのbashからDjangoサーバーを立ち上げます。
-```command
+はじめにSECRET_KEYを生成するスクリプトを実行します。これによりSECRET_KEYが書き込まれたlocal_settings.pyが作成されます。
+```
+(container) $ python3 generate_secretkey.py > local_settings.py
+```
+
+Djangoサーバーを立ち上げます。
+```
 (container) $ python3 manage.py runserver 0.0.0.0:8000
 ```
 
