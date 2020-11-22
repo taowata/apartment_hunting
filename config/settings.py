@@ -109,10 +109,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Authenticate my User model
+
+AUTH_USER_MODEL = 'accounts.User'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 try:
     from local_settings import *
