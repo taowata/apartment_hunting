@@ -1,0 +1,20 @@
+{% extends 'import_records/base.html' %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>名前</th>
+      <th>いいね数</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in apartment_list %}
+      <tr>
+        <td>{{ record.name }}</td>
+        <td>{{ record.goodNumber }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
