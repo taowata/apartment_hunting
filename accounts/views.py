@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import User
+from django.contrib.auth import authenticate, login, logout
 
 
-def registerfunc(request):
+def register_func(request):
     if request.method == 'POST':
         temp_username = request.POST['username']
         temp_password = request.POST['password']
@@ -11,6 +12,20 @@ def registerfunc(request):
             return render(request, 'accounts/register.html', {'error': 'このユーザーは登録されています'})
         except:
             User.objects.create_user(temp_username, '', temp_password)
-            return render(request, 'accounts/register.html', {'some': 100})
+            return render(request, 'accounts/register.html')
     else:
-        return render(request, 'accounts/register.html', {'some': 100})
+        return render(request, 'accounts/register.html')
+
+
+def login_func(request):
+    if request.method == 'POST':
+        temp_username = request.POST['username']
+        temp_password = request.POST['password']
+        user = authenticate(request, username=temp_username, password=temp_password)
+        if user is not None:
+            login(request, user)
+            return redirect('/accounts/register')
+        else:
+            return redirect('/accounts/login')
+    else:
+        return render(request, 'accounts/login.html')
