@@ -1,12 +1,10 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from .models import Apartment
 
 
 # Create your views here.
 
-class ApartmentListView(TemplateView):
+class ApartmentListView(ListView):
     template_name = "apartment/list.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["list"] = "お部屋リスト"
-        return context
+    model = Apartment
+    context_object_name = 'apartment_list'
