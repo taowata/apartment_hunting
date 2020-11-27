@@ -1,42 +1,39 @@
 # apartment_hunting
 
 # 前提事項
-- Macでの開発を前提としています。
-- Docker Desktop for Macをインストールしておいてください。
+- Dockerがインストール済みであること。
 
 # 環境構築手順
 ### リポジトリのクローン
 - このリポジトリをforkする。
 - forkしたリポジトリをローカルにcloneする。
-### Djangoプロジェクト用Dockerイメージの作成
 
-clone したディレクトリに移動して、その直下にある Dockerfile から Docker イメージを作成します。
-```command
-$ cd apartment_hunting/
-$ docker build -t apartment_hunting .
+### local_settings.pyを作成(すでに作成済みの場合は不要)
+クローンしたディレクトリに移動し、SECRET_KEYを生成するスクリプトを実行する。これによりSECRET_KEYが書き込まれたlocal_settings.pyが作成される。
 ```
-### Dockerコンテナの実行
-作成したイメージを使ってDockerコンテナを作成、実行し、bashを起動します。
-$(pwd)の部分はクローンしたリポジトリのPATHを指定してください。
-
-```command
-$ docker run --rm -it -p 8000:8000 -v $(pwd):/root/apartment_hunting apartment_hunting
+$ docker-compose run web python3 generate_secretkey.py > local_settings.py
 ```
 
-### サーバーの起動
-はじめにSECRET_KEYを生成するスクリプトを実行します。これによりSECRET_KEYが書き込まれたlocal_settings.pyが作成されます。
+### コンテナを起動する
+クローンしたディレクトリに移動し、以下を実行する。
 ```
-(container) $ python3 generate_secretkey.py > local_settings.py
+$ docker-compose up -d
+```
+### マイグレーション
+まず、コンテナ内に入る。
+```
+$ docker-compose exec web bash
 ```
 
-Djangoサーバーを立ち上げます。
+マイグレーションファイルを作成し、マイグレーションを実行。
 ```
-(container) $ python3 manage.py runserver 0.0.0.0:8000
+(container) $ python3 manage.py makemigrations
+(container) $ python3 manage.py migrate
 ```
 
 ### 動作確認
 
-ブラウザから http://localhost:8000 にアクセスすることで確認できます。
+ブラウザから http://localhost:8000 にアクセスすることで確認できる。
 
 # GitFlowの予備知識
 
