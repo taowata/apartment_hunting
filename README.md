@@ -35,6 +35,20 @@ $ docker-compose exec web bash
 
 ブラウザから http://localhost:8000 にアクセスすることで確認できる。
 
+## DBへアクセスする
+`docker-compose up`の後で、以下を実行してDBコンテナに入る。
+```
+$ docker-compose exec db bash
+```
+コンテナ内で以下を実行し、PostgreSQLへの接続する。
+```
+(container) $ psql -U postgres
+```
+次のコマンドでテーブルを確認できる。
+```
+postgres=# \dt
+```
+
 # GitFlowの予備知識
 
 - master
