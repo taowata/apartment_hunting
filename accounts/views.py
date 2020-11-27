@@ -29,3 +29,8 @@ def login_func(request):
             return redirect('/accounts/login')
     else:
         return render(request, 'accounts/login.html')
+
+
+def logout_func(request):
+    logout(request)
+    return render(request, 'accounts/logout.html')
