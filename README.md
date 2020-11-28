@@ -11,7 +11,7 @@
 ### local_settings.pyを作成(すでに作成済みの場合は不要)
 クローンしたディレクトリに移動し、SECRET_KEYを生成するスクリプトを実行する。これによりSECRET_KEYが書き込まれたlocal_settings.pyが作成される。
 ```
-$ docker-compose run web python3 generate_secretkey.py > local_settings.py
+$ docker-compose run web python3 generate_secretkey.py
 ```
 
 ### コンテナを起動する
