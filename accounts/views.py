@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import User
 from django.contrib.auth import authenticate, login, logout
+import uuid
 
 
 def register_func(request):
@@ -15,6 +16,15 @@ def register_func(request):
             return render(request, 'accounts/register.html')
     else:
         return render(request, 'accounts/register.html')
+
+
+def guest_login_func(request):
+    temp_username = "guest_" + str(uuid.uuid4())
+    temp_password = "guest"
+    User.objects.create_user(temp_username, '', temp_password)
+    user = authenticate(request, username=temp_username, password=temp_password)
+    login(request, user)
+    return redirect('/apartment/list')
 
 
 def login_func(request):
