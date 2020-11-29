@@ -1,6 +1,15 @@
 {% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static "accounts/style.css" %}">
+{% endblock customcss %}
 
 {% block content %}
-    <a>ログアウトしました</a>
-    <button class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
+    <form class="form-signin">
+        <a>ログアウトしました</a>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='{% url 'accounts:login' %}'">
+            ログイン画面に戻る
+        </button>
+    </form>
 {% endblock content %}
