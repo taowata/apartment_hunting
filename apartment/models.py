@@ -8,6 +8,9 @@ class Apartment(models.Model):
     class Meta:
         db_table = "apartment"
 
+    def __str__(self):
+        return self.name
+
     name = models.CharField(verbose_name='アパート名', max_length=255)
     goodNumber = models.IntegerField(verbose_name='いいね数')
     age = models.IntegerField(verbose_name='築年数', default=12)
@@ -24,6 +27,9 @@ class Room(models.Model):
     """部屋モデル"""
     class Meta:
         db_table = 'room'
+
+    def __str__(self):
+        return self.apartment.name + " " + str(self.number)
 
     apartment = models.ForeignKey(Apartment, verbose_name='アパート',
                                   on_delete=models.PROTECT)
