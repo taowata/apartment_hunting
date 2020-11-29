@@ -13,7 +13,7 @@ def register_func(request):
             return render(request, 'accounts/register.html', {'error': 'このユーザーは登録されています'})
         except:
             User.objects.create_user(temp_username, '', temp_password)
-            return render(request, 'accounts/register.html')
+            return redirect('/accounts/login')
     else:
         return render(request, 'accounts/register.html')
 
@@ -34,7 +34,7 @@ def login_func(request):
         user = authenticate(request, username=temp_username, password=temp_password)
         if user is not None:
             login(request, user)
-            return redirect('/accounts/register')
+            return redirect('/apartment/list')
         else:
             return redirect('/accounts/login')
     else:
