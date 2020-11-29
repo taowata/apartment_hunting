@@ -25,32 +25,50 @@
     <div class="album py-5 bg-light">
         <div class="container">
 
-            <div class="row">
                 {% for apartment in apartment_list %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top"
-                             src="{{ apartment.appearance }}"
-                             alt="Card image cap"
-                             height="200px">
-                        <div class="card-body">
-                            <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                            <p class="card-text">{{ apartment.name }}</p>
-                            <p class="card-text">{{ apartment.address }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">詳細</button>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 my-auto">
+                                <img class="card-img"
+                                     src="{{ apartment.appearance }}"
+                                     alt="Card image cap">
+                            </div>
+                            <div class="col-md-8 my-auto">
+                                <div class="card-body">
+                                    <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                                    <p class="card-text">{{ apartment.name }}</p>
+                                    <p class="card-text">{{ apartment.address }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">詳細
+                                            </button>
+                                        </div>
+                                        <!-- <small class="text-muted">9 mins</small> -->
+                                        <small class="text-muted">築年数：{{ apartment.age }}年</small>
+                                        <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
+                                    </div>
                                 </div>
-                                <!-- <small class="text-muted">9 mins</small> -->
-                                <small class="text-muted">築年数：{{ apartment.age }}年</small>
-                                <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
                             </div>
                         </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>部屋番号</th>
+                                <th>賃料</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in apartment.room_set.all %}
+                                <tr>
+                                    <td>{{ room.number }}</td>
+                                    <td>{{ room.rent }}万円</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                </div>
                 {% endfor %}
-            </div>
         </div>
     </div>
 
