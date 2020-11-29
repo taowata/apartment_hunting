@@ -31,7 +31,10 @@ $ docker-compose exec web bash
 (container) $ python3 manage.py migrate
 ```
 
-### 動作確認
+### サーバー起動&動作確認
+```
+(container) $ python3 manage.py runserver 0.0.0.0:8000
+```
 
 ブラウザから http://localhost:8000 にアクセスすることで確認できる。
 
