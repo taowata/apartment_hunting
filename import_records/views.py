@@ -13,7 +13,7 @@ class ApartmentList(generic.ListView):
     context_object_name = 'apartment_list'
 
 
-class PostImport(generic.FormView):
+class RecordsImport(generic.FormView):
     template_name = 'import_records/import.html'
     success_url = reverse_lazy('import_records:index')
     form_class = CSVUploadForm

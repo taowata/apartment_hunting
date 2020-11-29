@@ -31,4 +31,4 @@ class Room(models.Model):
     isRentable = models.BooleanField(verbose_name='空部屋かどうか')
     rent = models.IntegerField(verbose_name='家賃')
     floorPlan = models.CharField(verbose_name='間取り', max_length=255)
-    areBathAndToiletSeparated = models.BooleanField(verbose_name='バストイレ')
+    areBathAndToiletSeparated = models.BooleanField(verbose_name='バストイレが分かれている')
