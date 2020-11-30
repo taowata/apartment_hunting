@@ -3,7 +3,12 @@
 <head>
     <title>お部屋リスト</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <script src="script.js"></script>
+    <style type="text/css">
+        .red {color: red;}
+        .gray {color: gray;}
+    </style>
 </head>
 <body>
 
@@ -46,7 +51,15 @@
                                         </div>
                                         <!-- <small class="text-muted">9 mins</small> -->
                                         <small class="text-muted">築年数：{{ apartment.age }}年</small>
-                                        <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
+
+                                        <div>
+                                            {% if True %}
+                                                <i class="fas fa-heart fa-lg fa-fw red"></i>
+                                            {% else %}
+                                                <i class="far fa-heart fa-lg fa-fw gray"></i>
+                                            {% endif %}
+                                            <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
