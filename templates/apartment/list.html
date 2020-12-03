@@ -101,13 +101,45 @@
         let element = document.getElementById("heart" + apartment_id)
         if(state_data[apartment_id] == 1){
             not_like(apartment_id);
+            changeIcon(element, 0)
             state_data[apartment_id] = 0;
-            element.className = "far fa-heart fa-lg fa-fw gray";
         }else{
             like(apartment_id);
+            changeIcon(element, 1)
             state_data[apartment_id] = 1;
-            element.className = "fas fa-heart fa-lg fa-fw red";
         }
+    }
+
+    function changeIcon(element, next){
+        if(element.style.opacity == ''){
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval( () => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if(element.style.opacity <= 0){
+                clearInterval(intervalId);
+                //画像を交換
+                if(next == 1){
+                    element.className = "fas fa-heart fa-lg fa-fw red";
+                }else{
+                    element.className = "far fa-heart fa-lg fa-fw gray";
+                }
+
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval( () => {
+                    opacityInt = opacityInt + 50;
+                    element.style.opacity = opacityInt / 100;
+                    if(element.style.opacity >= 1){
+                        clearInterval(intervalId);
+                    }
+                }, 100);
+            }
+        }, 100);
     }
 
     async function like(apartment_id) {
