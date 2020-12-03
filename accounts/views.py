@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User
+from apartment.models import Apartment
 from django.contrib.auth import authenticate, login, logout
 import uuid
 
@@ -44,3 +45,21 @@ def login_func(request):
 def logout_func(request):
     logout(request)
     return render(request, 'accounts/logout.html')
+
+
+def add_favorite_apartment_func(user_id, apartment_id):
+    try:
+        user = User.objects.get(id=user_id)
+        apartment = Apartment.objects.get(id=apartment_id)
+        user.favorite_apartment.add(apartment)
+    except:
+        print("error: failed to add favorite apartment")
+
+
+def remove_favorite_apartment_func(user_id, apartment_id):
+    try:
+        user = User.objects.get(id=user_id)
+        apartment = Apartment.objects.get(id=apartment_id)
+        user.favorite_apartment.remove(apartment)
+    except:
+        print("error: failed to remove favorite apartment")
