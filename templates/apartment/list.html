@@ -52,7 +52,7 @@
 
                                         <div>
                                             {% if True %}
-                                                <div onclick="like(apartment_id={{ apartment.id }})">
+                                                <div onclick="not_like(apartment_id={{ apartment.id }})">
                                                     <i class="fas fa-heart fa-lg fa-fw red"></i>
                                                 </div>
                                             {% else %}
@@ -89,6 +89,11 @@
 <script type="text/javascript">
     async function like(apartment_id) {
         let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
+
+    async function not_like(apartment_id) {
+        let response = await fetch('{% url 'accounts:not_like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
         console.log(response);
     }
 </script>
