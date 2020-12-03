@@ -51,13 +51,13 @@
                                         <small class="text-muted">築年数：{{ apartment.age }}年</small>
 
                                         <div>
-                                            {% if True %}
-                                                <div onclick="not_like(apartment_id={{ apartment.id }})">
-                                                    <i class="fas fa-heart fa-lg fa-fw red"></i>
-                                                </div>
-                                            {% else %}
-                                                <i class="far fa-heart fa-lg fa-fw gray"></i>
-                                            {% endif %}
+                                            <div class="d-inline" onclick="switcher(apartment_id='{{ apartment.id }}')">
+                                                {% if apartment in user.favorite_apartment.all %}
+                                                    <i class="fas fa-heart fa-lg fa-fw red" id="heart{{ apartment.id }}"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart fa-lg fa-fw gray" id="heart{{ apartment.id }}"></i>
+                                                {% endif %}
+                                            </div>
                                             <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
                                         </div>
                                     </div>
@@ -87,6 +87,29 @@
 
 </main>
 <script type="text/javascript">
+    let state_data = {};
+    {% for apartment in apartment_list %}
+        {% if apartment in user.favorite_apartment.all %}
+            state_data['{{ apartment.id }}'] = 1;
+        {% else %}
+            state_data['{{ apartment.id }}'] = 0;
+        {% endif %}
+    {% endfor %}
+    console.log(state_data);
+
+    function switcher(apartment_id) {
+        let element = document.getElementById("heart" + apartment_id)
+        if(state_data[apartment_id] == 1){
+            not_like(apartment_id);
+            state_data[apartment_id] = 0;
+            element.className = "far fa-heart fa-lg fa-fw gray";
+        }else{
+            like(apartment_id);
+            state_data[apartment_id] = 1;
+            element.className = "fas fa-heart fa-lg fa-fw red";
+        }
+    }
+
     async function like(apartment_id) {
         let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
         console.log(response);
