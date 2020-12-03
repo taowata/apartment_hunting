@@ -4,14 +4,12 @@
     <title>お部屋リスト</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
-    <script src="script.js"></script>
     <style type="text/css">
         .red {color: red;}
         .gray {color: gray;}
     </style>
 </head>
 <body>
-
 <main role="main">
 
     <section class="jumbotron text-center">
@@ -54,7 +52,9 @@
 
                                         <div>
                                             {% if True %}
-                                                <i class="fas fa-heart fa-lg fa-fw red"></i>
+                                                <div onclick="like(apartment_id={{ apartment.id }})">
+                                                    <i class="fas fa-heart fa-lg fa-fw red"></i>
+                                                </div>
                                             {% else %}
                                                 <i class="far fa-heart fa-lg fa-fw gray"></i>
                                             {% endif %}
@@ -86,6 +86,13 @@
     </div>
 
 </main>
+<script type="text/javascript">
+    async function like(apartment_id) {
+        let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
+</script>
+
 <script src="../../assets/js/vendor/holder.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

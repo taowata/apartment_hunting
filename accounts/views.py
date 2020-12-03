@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import User
 from apartment.models import Apartment
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 import uuid
 
 
@@ -47,19 +49,40 @@ def logout_func(request):
     return render(request, 'accounts/logout.html')
 
 
-def add_favorite_apartment_func(user_id, apartment_id):
+@csrf_exempt
+def add_favorite_apartment_func(request):
+    print("wellcom to api")
+    response = HttpResponse()
+    parameter = request.GET
+    print(parameter)
     try:
-        user = User.objects.get(id=user_id)
-        apartment = Apartment.objects.get(id=apartment_id)
+        user = User.objects.get(id=request.GET.get('user_id'))
+        apartment = Apartment.objects.get(id=request.GET.get('apartment_id'))
         user.favorite_apartment.add(apartment)
+        print("succeeded")
     except:
-        print("error: failed to add favorite apartment")
+        response.write("error: failed to remove favorite apartment")
+        print("failed!")
+        print("user-id: ")
+        print(str(request.GET.get('user_id')))
+        print("apartment-id: ")
+        print(str(request.GET.get('apartment_id')))
+    return response
 
 
-def remove_favorite_apartment_func(user_id, apartment_id):
+def remove_favorite_apartment_func(request):
+    print("wellcom to api")
+    response = HttpResponse()
     try:
-        user = User.objects.get(id=user_id)
-        apartment = Apartment.objects.get(id=apartment_id)
+        user = User.objects.get(id=request.headers['user_id'])
+        apartment = Apartment.objects.get(id=request.headers['apartment_id'])
         user.favorite_apartment.remove(apartment)
+        print("succeeded")
     except:
-        print("error: failed to remove favorite apartment")
+        response.write("error: failed to remove favorite apartment")
+        print("failed!")
+        print("user-id: ")
+        print(request.headers['user_id'])
+        print("apartment-id: ")
+        print(request.headers['apartment_id'])
+    return response
