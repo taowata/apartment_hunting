@@ -58,7 +58,11 @@
                                                     <i class="far fa-heart fa-lg fa-fw gray" id="heart{{ apartment.id }}"></i>
                                                 {% endif %}
                                             </div>
-                                            <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
+                                            {% if apartment in user.favorite_apartment.all %}
+                                                <small class="d-inline text-danger font-weight-bold" id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }} いいね</small>
+                                            {% else %}
+                                                <small class="d-inline text-muted" id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }} いいね</small>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -86,28 +90,70 @@
     </div>
 
 </main>
+
 <script type="text/javascript">
     let state_data = {};
+    let likeNum_except_me_data = {};
     {% for apartment in apartment_list %}
         {% if apartment in user.favorite_apartment.all %}
             state_data['{{ apartment.id }}'] = 1;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }} - 1);
         {% else %}
             state_data['{{ apartment.id }}'] = 0;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }});
         {% endif %}
     {% endfor %}
     console.log(state_data);
+    console.log(likeNum_except_me_data);
 
     function switcher(apartment_id) {
-        let element = document.getElementById("heart" + apartment_id)
+        let elementIcon = document.getElementById("heart" + apartment_id)
+        let elementLike = document.getElementById("likeNum" + apartment_id)
         if(state_data[apartment_id] == 1){
             not_like(apartment_id);
-            changeIcon(element, 0)
+            changeIcon(elementIcon, 0);
+            changeLikeNum(elementLike, 0, apartment_id);
             state_data[apartment_id] = 0;
         }else{
             like(apartment_id);
-            changeIcon(element, 1)
+            changeIcon(elementIcon, 1);
+            changeLikeNum(elementLike, 1, apartment_id);
             state_data[apartment_id] = 1;
         }
+    }
+
+    function changeLikeNum(element, next, apartment_id){
+        if(element.style.opacity == ''){
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval( () => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if(element.style.opacity <= 0){
+                clearInterval(intervalId);
+                //画像を交換
+                if(next == 1){
+                    element.className = "d-inline text-danger font-weight-bold";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id] + 1) + " いいね";
+                }else{
+                    element.className = "d-inline text-muted";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id]) + " いいね";
+                }
+
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval( () => {
+                    opacityInt = opacityInt + 50;
+                    element.style.opacity = opacityInt / 100;
+                    if(element.style.opacity >= 1){
+                        clearInterval(intervalId);
+                    }
+                }, 100);
+            }
+        }, 100);
     }
 
     function changeIcon(element, next){
