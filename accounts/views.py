@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import User
+from apartment.models import Apartment
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 import uuid
 
 
@@ -44,3 +46,47 @@ def login_func(request):
 def logout_func(request):
     logout(request)
     return render(request, 'accounts/logout.html')
+
+
+def add_favorite_apartment_func(request):
+    try:
+        user = User.objects.get(id=request.GET.get('user_id'))
+        apartment = Apartment.objects.get(id=request.GET.get('apartment_id'))
+    except:
+        print("error: failed to get user or apartment")
+        return HttpResponse("error: failed to get user or apartment")
+    try:
+        user.favorite_apartment.add(apartment)
+    except:
+        print("error: failed to add favorite apartment")
+        return HttpResponse("error: failed to add favorite apartment")
+    try:
+        apartment.goodNumber = apartment.user_set.all().count()
+        apartment.save()
+    except:
+        print("error: failed to update Apartment.goodNumber")
+        return HttpResponse("error: failed to update Apartment.goodNumber")
+    print("succeeded")
+    return HttpResponse("succeeded")
+
+
+def remove_favorite_apartment_func(request):
+    try:
+        user = User.objects.get(id=request.GET.get('user_id'))
+        apartment = Apartment.objects.get(id=request.GET.get('apartment_id'))
+    except:
+        print("error: failed to get user or apartment")
+        return HttpResponse("error: failed to get user or apartment")
+    try:
+        user.favorite_apartment.remove(apartment)
+    except:
+        print("error: failed to remove favorite apartment")
+        return HttpResponse("error: failed to remove favorite apartment")
+    try:
+        apartment.goodNumber = apartment.user_set.all().count()
+        apartment.save()
+    except:
+        print("error: failed to update Apartment.goodNumber")
+        return HttpResponse("error: failed to update Apartment.goodNumber")
+    print("succeeded")
+    return HttpResponse("succeeded")

@@ -3,10 +3,13 @@
 <head>
     <title>お部屋リスト</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <style type="text/css">
+        .red {color: red;}
+        .gray {color: gray;}
+    </style>
 </head>
 <body>
-
 <main role="main">
 
     <section class="jumbotron text-center">
@@ -46,7 +49,21 @@
                                         </div>
                                         <!-- <small class="text-muted">9 mins</small> -->
                                         <small class="text-muted">築年数：{{ apartment.age }}年</small>
-                                        <small class="text-muted">{{ apartment.goodNumber }} いいね</small>
+
+                                        <div>
+                                            <div class="d-inline" onclick="switcher(apartment_id='{{ apartment.id }}')">
+                                                {% if apartment in user.favorite_apartment.all %}
+                                                    <i class="fas fa-heart fa-lg fa-fw red" id="heart{{ apartment.id }}"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart fa-lg fa-fw gray" id="heart{{ apartment.id }}"></i>
+                                                {% endif %}
+                                            </div>
+                                            {% if apartment in user.favorite_apartment.all %}
+                                                <small class="d-inline text-danger font-weight-bold" id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }} いいね</small>
+                                            {% else %}
+                                                <small class="d-inline text-muted" id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }} いいね</small>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -73,6 +90,115 @@
     </div>
 
 </main>
+
+<script type="text/javascript">
+    let state_data = {};
+    let likeNum_except_me_data = {};
+    {% for apartment in apartment_list %}
+        {% if apartment in user.favorite_apartment.all %}
+            state_data['{{ apartment.id }}'] = 1;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }} - 1);
+        {% else %}
+            state_data['{{ apartment.id }}'] = 0;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }});
+        {% endif %}
+    {% endfor %}
+    console.log(state_data);
+    console.log(likeNum_except_me_data);
+
+    function switcher(apartment_id) {
+        let elementIcon = document.getElementById("heart" + apartment_id)
+        let elementLike = document.getElementById("likeNum" + apartment_id)
+        if(state_data[apartment_id] == 1){
+            not_like(apartment_id);
+            changeIcon(elementIcon, 0);
+            changeLikeNum(elementLike, 0, apartment_id);
+            state_data[apartment_id] = 0;
+        }else{
+            like(apartment_id);
+            changeIcon(elementIcon, 1);
+            changeLikeNum(elementLike, 1, apartment_id);
+            state_data[apartment_id] = 1;
+        }
+    }
+
+    function changeLikeNum(element, next, apartment_id){
+        if(element.style.opacity == ''){
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval( () => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if(element.style.opacity <= 0){
+                clearInterval(intervalId);
+                //画像を交換
+                if(next == 1){
+                    element.className = "d-inline text-danger font-weight-bold";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id] + 1) + " いいね";
+                }else{
+                    element.className = "d-inline text-muted";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id]) + " いいね";
+                }
+
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval( () => {
+                    opacityInt = opacityInt + 50;
+                    element.style.opacity = opacityInt / 100;
+                    if(element.style.opacity >= 1){
+                        clearInterval(intervalId);
+                    }
+                }, 100);
+            }
+        }, 100);
+    }
+
+    function changeIcon(element, next){
+        if(element.style.opacity == ''){
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval( () => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if(element.style.opacity <= 0){
+                clearInterval(intervalId);
+                //画像を交換
+                if(next == 1){
+                    element.className = "fas fa-heart fa-lg fa-fw red";
+                }else{
+                    element.className = "far fa-heart fa-lg fa-fw gray";
+                }
+
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval( () => {
+                    opacityInt = opacityInt + 50;
+                    element.style.opacity = opacityInt / 100;
+                    if(element.style.opacity >= 1){
+                        clearInterval(intervalId);
+                    }
+                }, 100);
+            }
+        }, 100);
+    }
+
+    async function like(apartment_id) {
+        let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
+
+    async function not_like(apartment_id) {
+        let response = await fetch('{% url 'accounts:not_like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
+</script>
+
 <script src="../../assets/js/vendor/holder.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

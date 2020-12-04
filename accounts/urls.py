@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_func, login_func, logout_func, guest_login_func
+from .views import register_func, login_func, logout_func, guest_login_func, add_favorite_apartment_func, remove_favorite_apartment_func
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path('login/', login_func, name='login'),
     path('logout/', logout_func, name='logout'),
     path('guest/',  guest_login_func, name='guest'),
+    path('like/', add_favorite_apartment_func, name='like'),
+    path('not_like/', remove_favorite_apartment_func, name='not_like')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
