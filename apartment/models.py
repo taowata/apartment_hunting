@@ -38,3 +38,8 @@ class Room(models.Model):
     rent = models.IntegerField(verbose_name='家賃')
     floorPlan = models.CharField(verbose_name='間取り', max_length=255)
     areBathAndToiletSeparated = models.BooleanField(verbose_name='バストイレが分かれている')
+    floorImage = models.CharField(verbose_name='間取り画像',
+                                  default='https://image3.homes.jp/smallimg/image.php?file=http%3A%2F%2Fimg.homes.jp'
+                                          '%2Fv4ai88hj3p84kjp.jpg ',
+                                  max_length=2048
+                                  )
