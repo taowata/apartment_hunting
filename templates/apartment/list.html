@@ -7,6 +7,7 @@
     <style type="text/css">
         .red {color: red;}
         .gray {color: gray;}
+        .pointer {cursor: pointer}
     </style>
 </head>
 <body>
@@ -48,9 +49,9 @@
                                         <div>
                                             <div class="d-inline" onclick="switcher(apartment_id='{{ apartment.id }}')">
                                                 {% if apartment in user.favorite_apartment.all %}
-                                                    <i class="fas fa-heart fa-lg fa-fw red" id="heart{{ apartment.id }}"></i>
+                                                    <i class="fas fa-heart fa-lg fa-fw red pointer" id="heart{{ apartment.id }}"></i>
                                                 {% else %}
-                                                    <i class="far fa-heart fa-lg fa-fw gray" id="heart{{ apartment.id }}"></i>
+                                                    <i class="far fa-heart fa-lg fa-fw gray pointer" id="heart{{ apartment.id }}"></i>
                                                 {% endif %}
                                             </div>
                                             {% if apartment in user.favorite_apartment.all %}
@@ -167,9 +168,9 @@
                 clearInterval(intervalId);
                 //画像を交換
                 if(next == 1){
-                    element.className = "fas fa-heart fa-lg fa-fw red";
+                    element.className = "fas fa-heart fa-lg fa-fw red pointer";
                 }else{
-                    element.className = "far fa-heart fa-lg fa-fw gray";
+                    element.className = "far fa-heart fa-lg fa-fw gray pointer";
                 }
 
                 opacityInt = element.style.opacity * 100;
