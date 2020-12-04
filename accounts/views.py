@@ -49,28 +49,44 @@ def logout_func(request):
 
 
 def add_favorite_apartment_func(request):
-    response = HttpResponse()
-    parameter = request.GET
-    print(parameter)
     try:
         user = User.objects.get(id=request.GET.get('user_id'))
         apartment = Apartment.objects.get(id=request.GET.get('apartment_id'))
-        user.favorite_apartment.add(apartment)
-        print("succeeded")
     except:
-        response.write("error: failed to add favorite apartment")
-    return response
+        print("error: failed to get user or apartment")
+        return HttpResponse("error: failed to get user or apartment")
+    try:
+        user.favorite_apartment.add(apartment)
+    except:
+        print("error: failed to add favorite apartment")
+        return HttpResponse("error: failed to add favorite apartment")
+    try:
+        apartment.goodNumber = apartment.user_set.all().count()
+        apartment.save()
+    except:
+        print("error: failed to update Apartment.goodNumber")
+        return HttpResponse("error: failed to update Apartment.goodNumber")
+    print("succeeded")
+    return HttpResponse("succeeded")
 
 
 def remove_favorite_apartment_func(request):
-    response = HttpResponse()
-    parameter = request.GET
-    print(parameter)
     try:
         user = User.objects.get(id=request.GET.get('user_id'))
         apartment = Apartment.objects.get(id=request.GET.get('apartment_id'))
-        user.favorite_apartment.remove(apartment)
-        print("succeeded")
     except:
-        response.write("error: failed to remove favorite apartment")
-    return response
+        print("error: failed to get user or apartment")
+        return HttpResponse("error: failed to get user or apartment")
+    try:
+        user.favorite_apartment.remove(apartment)
+    except:
+        print("error: failed to remove favorite apartment")
+        return HttpResponse("error: failed to remove favorite apartment")
+    try:
+        apartment.goodNumber = apartment.user_set.all().count()
+        apartment.save()
+    except:
+        print("error: failed to update Apartment.goodNumber")
+        return HttpResponse("error: failed to update Apartment.goodNumber")
+    print("succeeded")
+    return HttpResponse("succeeded")
