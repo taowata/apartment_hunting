@@ -43,7 +43,7 @@ class CSVUploadForm(forms.Form):
         for apartment in self._instances:
             apartment.save()
             for i in range(5):
-                number = str(i) + '01'
+                number = str(i+1) + '01'
                 room = Room(
                     apartment=apartment,
                     number=int(number),
@@ -55,6 +55,8 @@ class CSVUploadForm(forms.Form):
                 # 前半4物件は1Kに変更、後半6物件はユニットバスに変更
                 if count < 4:
                     room.floorPlan = "1K"
+                    room.floorImage = 'https://image2.homes.jp/smallimg/image.php?file=http%3A%2F%2Fimg.homes.jp' \
+                                      '%2Fu93g88kkx8nl1at.gif '
                 else:
                     room.areBathAndToiletSeparated = False
                 room.save()
