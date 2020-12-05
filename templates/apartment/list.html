@@ -77,7 +77,7 @@
                                     <tr>
                                         <td width="40%">{{ room.number }}</td>
                                         <td width="40%">{{ room.rent }}万円</td>
-                                        <td width="20%" align="center"><button type="button" class="btn btn-sm btn-outline-secondary">詳細</button></td>
+                                        <td width="20%" align="center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='{% url 'apartment:detail' room.pk %}'">詳細</button></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
