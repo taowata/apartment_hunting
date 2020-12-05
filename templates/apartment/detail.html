@@ -12,38 +12,67 @@
     <title>お部屋詳細</title>
 </head>
 <body>
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
-                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                 aria-label="Placeholder: First slide"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#666"/>
-                <image href="{{ room_object.apartment.appearance }}" height="100%" width="100%"/>
-            </svg>
-        </div>
-        <div class="carousel-item">
-            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
-                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                 aria-label="Placeholder: Second slide"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#666"/>
-                <image href="{{ room_object.floorImage }}" height="100%" width="100%"/>
-            </svg>
-        </div>
+<header>
+    <div class="jumbotron">
+        <h1 class="font-weight-light">{{ room_object.apartment.name }}　{{ room_object.number }}号室</h1>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+</header>
+<main>
+    <div id="carouselExampleIndicators" class="container carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="600" height="400"
+                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                     role="img"
+                     aria-label="Placeholder: First slide"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#666"/>
+                    <image href="{{ room_object.apartment.appearance }}" height="100%" width="100%"/>
+                </svg>
+            </div>
+            <div class="carousel-item">
+                <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="600" height="400"
+                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                     role="img"
+                     aria-label="Placeholder: Second slide"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#666"/>
+                    <image href="{{ room_object.floorImage }}" height="100%" width="100%"/>
+                </svg>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <table class="table table-striped container">
+        <tbody>
+        <tr>
+            <th scope="row" width="30%">アパート名</th>
+            <td>{{ room_object.apartment.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row" width="30%">部屋番号</th>
+            <td>{{ room_object.number }}</td>
+        </tr>
+        <tr>
+            <th scope="row" width="30%">家賃</th>
+            <td>{{ room_object.rent }}万円</td>
+        </tr>
+        <tr>
+            <th scope="row" width="30%">間取り</th>
+            <td>{{ room_object.floorPlan }}</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
