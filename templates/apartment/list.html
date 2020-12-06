@@ -39,59 +39,59 @@
     <nav style="min-width: 195px; width: 20%; margin: 0 auto;">
         <div class="rounded-lg bg-warning p-2">
             <h5 class="text-secondary font-weight-bold p-2">詳細検索</h5>
-            <form action="" method="post">
+            <form action="" method="GET">
                 <ul style="list-style: none; padding-left: 0;">
                     <li>
-                        <label for="newer_than">築年数：</label>
-                        <select class="btn-sm btn-light dropdown-toggle" id="newer_than" name="search_newer_than">
-                            <option>制限なし</option>
-                            <option>10年以内</option>
-                            <option>20年以内</option>
-                            <option>30年以内</option>
+                        <label>築年数：</label>
+                        <select class="btn-sm btn-light dropdown-toggle" name="age">
+                            <option value="default">制限なし</option>
+                            <option value="10">10年以内</option>
+                            <option value="20">20年以内</option>
+                            <option value="30">30年以内</option>
                         </select>
                     </li>
                     <li>
-                        <label for="layout">間取り：</label>
-                        <select class="btn-sm btn-light dropdown-toggle" id="layout" name="search_layout">
-                            <option>制限なし</option>
-                            <option>ワンルーム</option>
-                            <option>1K</option>
+                        <label>間取り：</label>
+                        <select class="btn-sm btn-light dropdown-toggle" name="layout">
+                            <option value="default">制限なし</option>
+                            <option value="1room">ワンルーム</option>
+                            <option value="1k">1K</option>
                         </select>
                     </li>
                     <li>
-                        <label for="rent">家賃：</label>
-                        <select class="btn-sm btn-light dropdown-toggle" id="rent" name="search_rent_higher_than">
-                            <option>下限なし</option>
-                            <option>3万円</option>
-                            <option>4万円</option>
-                            <option>5万円</option>
-                            <option>6万円</option>
-                            <option>7万円</option>
-                            <option>8万円</option>
-                            <option>9万円</option>
-                            <option>10万円</option>
+                        <label>家賃：</label>
+                        <select class="btn-sm btn-light dropdown-toggle" name="rent_bottom">
+                            <option value="default">下限なし</option>
+                            <option value="3">3万円</option>
+                            <option value="4">4万円</option>
+                            <option value="5">5万円</option>
+                            <option value="6">6万円</option>
+                            <option value="7">7万円</option>
+                            <option value="8">8万円</option>
+                            <option value="9">9万円</option>
+                            <option value="10">10万円</option>
                         </select>
                         <h6 class="d-inline">〜</h6>
-                        <select class="btn-sm btn-light dropdown-toggle" id="rent" name="search_rent_lower_than">
-                            <option>上限なし</option>
-                            <option>4万円</option>
-                            <option>5万円</option>
-                            <option>6万円</option>
-                            <option>7万円</option>
-                            <option>8万円</option>
-                            <option>9万円</option>
-                            <option>10万円</option>
-                            <option>12万円</option>
-                            <option>15万円</option>
+                        <select class="btn-sm btn-light dropdown-toggle" name="rent_top">
+                            <option value="default">上限なし</option>
+                            <option value="4">4万円</option>
+                            <option value="5">5万円</option>
+                            <option value="6">6万円</option>
+                            <option value="7">7万円</option>
+                            <option value="8">8万円</option>
+                            <option value="9">9万円</option>
+                            <option value="10">10万円</option>
+                            <option value="12">12万円</option>
+                            <option value="15">15万円</option>
                         </select>
                     </li>
                     <li>
-                        <label for="separated_bathroom">バストイレ別：</label>
-                        <input type="checkbox" id="separated_bathroom" name="search_separated_bathroom">
+                        <label>バストイレ別：</label>
+                        <input type="checkbox" name="separated_bathroom">
                     </li>
                     <li>
-                        <label for="available">空室のみ検索：</label>
-                        <input type="checkbox" id="available" name="search_available" checked>
+                        <label>空室のみ検索：</label>
+                        <input type="checkbox" name="available" checked>
                     </li>
                 </ul>
                 <button type="submit" class="btn btn-primary btn-block">検索</button>
@@ -99,203 +99,205 @@
         </div>
     </nav>
     <main role="main" style="flex: 1;">
-                        <div>
-                            <div class="container">
+        <div>
+            <div class="container">
 
-                                {% for apartment in apartment_list %}
-                                    <div class="card mb-3 shadow-sm">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-4 my-auto">
-                                                <img class="card-img"
-                                                     src="{{ apartment.appearance }}"
-                                                     alt="Card image cap">
-                                            </div>
-                                            <div class="col-md-8 my-auto">
-                                                <div class="card-body">
-                                                    <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                                                    <p class="card-text">{{ apartment.name }}</p>
-                                                    <p class="card-text">{{ apartment.address }}</p>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <!-- <small class="text-muted">9 mins</small> -->
-                                                        <small class="text-muted">築年数：{{ apartment.age }}年</small>
+                {% for apartment in apartment_list %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 my-auto">
+                                <img class="card-img"
+                                     src="{{ apartment.appearance }}"
+                                     alt="Card image cap">
+                            </div>
+                            <div class="col-md-8 my-auto">
+                                <div class="card-body">
+                                    <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                                    <p class="card-text">{{ apartment.name }}</p>
+                                    <p class="card-text">{{ apartment.address }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- <small class="text-muted">9 mins</small> -->
+                                        <small class="text-muted">築年数：{{ apartment.age }}年</small>
 
-                                                        <div>
-                                                            <div class="d-inline"
-                                                                 onclick="switcher(apartment_id='{{ apartment.id }}')">
-                                                                {% if apartment in user.favorite_apartment.all %}
-                                                                    <i class="fas fa-heart fa-lg fa-fw red pointer"
-                                                                       id="heart{{ apartment.id }}"></i>
-                                                                {% else %}
-                                                                    <i class="far fa-heart fa-lg fa-fw gray pointer"
-                                                                       id="heart{{ apartment.id }}"></i>
-                                                                {% endif %}
-                                                            </div>
-                                                            {% if apartment in user.favorite_apartment.all %}
-                                                                <small class="d-inline text-danger font-weight-bold"
-                                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
-                                                                    いいね</small>
-                                                            {% else %}
-                                                                <small class="d-inline text-muted"
-                                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
-                                                                    いいね</small>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div>
+                                            <div class="d-inline"
+                                                 onclick="switcher(apartment_id='{{ apartment.id }}')">
+                                                {% if apartment in user.favorite_apartment.all %}
+                                                    <i class="fas fa-heart fa-lg fa-fw red pointer"
+                                                       id="heart{{ apartment.id }}"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart fa-lg fa-fw gray pointer"
+                                                       id="heart{{ apartment.id }}"></i>
+                                                {% endif %}
                                             </div>
+                                            {% if apartment in user.favorite_apartment.all %}
+                                                <small class="d-inline text-danger font-weight-bold"
+                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
+                                                    いいね</small>
+                                            {% else %}
+                                                <small class="d-inline text-muted"
+                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
+                                                    いいね</small>
+                                            {% endif %}
                                         </div>
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>部屋番号</th>
-                                                <th>賃料</th>
-                                                <th></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for room in apartment.room_set.all %}
-                                                <tr>
-                                                    <td width="40%">{{ room.number }}</td>
-                                                    <td width="40%">{{ room.rent }}万円</td>
-                                                    <td width="20%" align="center">
-                                                        <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                                onclick="location.href='{% url 'apartment:detail' room.pk %}'">
-                                                            詳細
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
                                     </div>
-                                {% endfor %}
+                                </div>
                             </div>
                         </div>
-                        </main>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>部屋番号</th>
+                                <th>賃料</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in apartment.room_set.all %}
+                                {% if not room.id in removed_room_id %}
+                                    <tr>
+                                        <td width="40%">{{ room.number }}</td>
+                                        <td width="40%">{{ room.rent }}万円</td>
+                                        <td width="20%" align="center">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    onclick="location.href='{% url 'apartment:detail' room.pk %}'">
+                                                詳細
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
+    </main>
+</div>
 
-        <script type="text/javascript">
-            let state_data = {};
-            let likeNum_except_me_data = {};
-            {% for apartment in apartment_list %}
-                {% if apartment in user.favorite_apartment.all %}
-                    state_data['{{ apartment.id }}'] = 1;
-                    likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }} -1);
-                {% else %}
-                    state_data['{{ apartment.id }}'] = 0;
-                    likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }});
-                {% endif %}
-            {% endfor %}
-            console.log(state_data);
-            console.log(likeNum_except_me_data);
+<script type="text/javascript">
+    let state_data = {};
+    let likeNum_except_me_data = {};
+    {% for apartment in apartment_list %}
+        {% if apartment in user.favorite_apartment.all %}
+            state_data['{{ apartment.id }}'] = 1;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }} -1);
+        {% else %}
+            state_data['{{ apartment.id }}'] = 0;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }});
+        {% endif %}
+    {% endfor %}
+    console.log(state_data);
+    console.log(likeNum_except_me_data);
 
-            function switcher(apartment_id) {
-                let elementIcon = document.getElementById("heart" + apartment_id)
-                let elementLike = document.getElementById("likeNum" + apartment_id)
-                if (state_data[apartment_id] == 1) {
-                    not_like(apartment_id);
-                    changeIcon(elementIcon, 0);
-                    changeLikeNum(elementLike, 0, apartment_id);
-                    state_data[apartment_id] = 0;
+    function switcher(apartment_id) {
+        let elementIcon = document.getElementById("heart" + apartment_id)
+        let elementLike = document.getElementById("likeNum" + apartment_id)
+        if (state_data[apartment_id] == 1) {
+            not_like(apartment_id);
+            changeIcon(elementIcon, 0);
+            changeLikeNum(elementLike, 0, apartment_id);
+            state_data[apartment_id] = 0;
+        } else {
+            like(apartment_id);
+            changeIcon(elementIcon, 1);
+            changeLikeNum(elementLike, 1, apartment_id);
+            state_data[apartment_id] = 1;
+        }
+    }
+
+    function changeLikeNum(element, next, apartment_id) {
+        if (element.style.opacity == '') {
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval(() => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if (element.style.opacity <= 0) {
+                clearInterval(intervalId);
+                //画像を交換
+                if (next == 1) {
+                    element.className = "d-inline text-danger font-weight-bold";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id] + 1) + " いいね";
                 } else {
-                    like(apartment_id);
-                    changeIcon(elementIcon, 1);
-                    changeLikeNum(elementLike, 1, apartment_id);
-                    state_data[apartment_id] = 1;
+                    element.className = "d-inline text-muted";
+                    element.innerHTML = String(likeNum_except_me_data[apartment_id]) + " いいね";
                 }
-            }
 
-            function changeLikeNum(element, next, apartment_id) {
-                if (element.style.opacity == '') {
-                    element.styleopacity = 1;
-                }
-                let opacityInt = element.style.opacity * 100;
-                //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
-                let intervalId = setInterval(() => {
-                    opacityInt = opacityInt - 50;
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval(() => {
+                    opacityInt = opacityInt + 50;
                     element.style.opacity = opacityInt / 100;
-
-                    if (element.style.opacity <= 0) {
+                    if (element.style.opacity >= 1) {
                         clearInterval(intervalId);
-                        //画像を交換
-                        if (next == 1) {
-                            element.className = "d-inline text-danger font-weight-bold";
-                            element.innerHTML = String(likeNum_except_me_data[apartment_id] + 1) + " いいね";
-                        } else {
-                            element.className = "d-inline text-muted";
-                            element.innerHTML = String(likeNum_except_me_data[apartment_id]) + " いいね";
-                        }
-
-                        opacityInt = element.style.opacity * 100;
-                        //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
-                        intervalId = setInterval(() => {
-                            opacityInt = opacityInt + 50;
-                            element.style.opacity = opacityInt / 100;
-                            if (element.style.opacity >= 1) {
-                                clearInterval(intervalId);
-                            }
-                        }, 100);
                     }
                 }, 100);
             }
+        }, 100);
+    }
 
-            function changeIcon(element, next) {
-                if (element.style.opacity == '') {
-                    element.styleopacity = 1;
+    function changeIcon(element, next) {
+        if (element.style.opacity == '') {
+            element.styleopacity = 1;
+        }
+        let opacityInt = element.style.opacity * 100;
+        //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+        let intervalId = setInterval(() => {
+            opacityInt = opacityInt - 50;
+            element.style.opacity = opacityInt / 100;
+
+            if (element.style.opacity <= 0) {
+                clearInterval(intervalId);
+                //画像を交換
+                if (next == 1) {
+                    element.className = "fas fa-heart fa-lg fa-fw red pointer";
+                } else {
+                    element.className = "far fa-heart fa-lg fa-fw gray pointer";
                 }
-                let opacityInt = element.style.opacity * 100;
-                //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
-                let intervalId = setInterval(() => {
-                    opacityInt = opacityInt - 50;
+
+                opacityInt = element.style.opacity * 100;
+                //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                intervalId = setInterval(() => {
+                    opacityInt = opacityInt + 50;
                     element.style.opacity = opacityInt / 100;
-
-                    if (element.style.opacity <= 0) {
+                    if (element.style.opacity >= 1) {
                         clearInterval(intervalId);
-                        //画像を交換
-                        if (next == 1) {
-                            element.className = "fas fa-heart fa-lg fa-fw red pointer";
-                        } else {
-                            element.className = "far fa-heart fa-lg fa-fw gray pointer";
-                        }
-
-                        opacityInt = element.style.opacity * 100;
-                        //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
-                        intervalId = setInterval(() => {
-                            opacityInt = opacityInt + 50;
-                            element.style.opacity = opacityInt / 100;
-                            if (element.style.opacity >= 1) {
-                                clearInterval(intervalId);
-                            }
-                        }, 100);
                     }
                 }, 100);
             }
+        }, 100);
+    }
 
-            async function like(apartment_id) {
-                let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
-                console.log(response);
-            }
+    async function like(apartment_id) {
+        let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
 
-            async function not_like(apartment_id) {
-                let response = await fetch('{% url 'accounts:not_like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
-                console.log(response);
-            }
-        </script>
+    async function not_like(apartment_id) {
+        let response = await fetch('{% url 'accounts:not_like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+        console.log(response);
+    }
+</script>
 
-        <script src="../../assets/js/vendor/holder.min.js"></script>
+<script src="../../assets/js/vendor/holder.min.js"></script>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                crossorigin="anonymous"></script>
-        <script>
-            window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery-slim.min.js"><\/script>')
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-        <script src="/docs/4.5/assets/js/vendor/anchor.min.js"></script>
-        <script src="/docs/4.5/assets/js/vendor/clipboard.min.js"></script>
-        <script src="/docs/4.5/assets/js/vendor/bs-custom-file-input.min.js"></script>
-        <script src="/docs/4.5/assets/js/src/application.js"></script>
-        <script src="/docs/4.5/assets/js/src/search.js"></script>
-        <script src="/docs/4.5/assets/js/src/ie-emulation-modes-warning.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script>
+    window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery-slim.min.js"><\/script>')
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<script src="/docs/4.5/assets/js/vendor/anchor.min.js"></script>
+<script src="/docs/4.5/assets/js/vendor/clipboard.min.js"></script>
+<script src="/docs/4.5/assets/js/vendor/bs-custom-file-input.min.js"></script>
+<script src="/docs/4.5/assets/js/src/application.js"></script>
+<script src="/docs/4.5/assets/js/src/search.js"></script>
+<script src="/docs/4.5/assets/js/src/ie-emulation-modes-warning.js"></script>
 </body>
 </html>
