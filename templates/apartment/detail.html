@@ -55,9 +55,9 @@
 
     <div class="container">
         {% if room_object.isRentable == True %}
-            <span class="badge badge-success m-2"><h6 class="m-2">ご予約可能</h6></span>
+            <span class="badge badge-success m-2"><h6 class="m-2">空室</h6></span>
         {% else %}
-            <span class="badge badge-info m-2"><h6 class="m-2">ご予約不可</h6></span>
+            <span class="badge badge-info m-2"><h6 class="m-2">満室</h6></span>
         {% endif %}
         {% if room_object.areBathAndToiletSeparated == True %}
             <span class="badge badge-primary m-2"><h6 class="m-2">バストイレ別</h6></span>
