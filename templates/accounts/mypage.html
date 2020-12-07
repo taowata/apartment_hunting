@@ -1,0 +1,221 @@
+{% extends 'accounts/base.html' %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <style type="text/css">
+        .red {
+            color: red;
+        }
+
+        .gray {
+            color: gray;
+        }
+
+        .pointer {
+            cursor: pointer
+        }
+    </style>
+{% endblock customcss %}
+
+{% block title %}
+    <title>マイページ</title>
+{% endblock title %}
+
+{% block header %}
+    <header>
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">{{ user.username }}さんのマイページへようこそ</h4>
+            <p>ここでは{{ user.username }}さんが今まで【いいね】をした物件を一覧で見ることができます。</p>
+            <hr>
+            <ul class="nav  justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'apartment:list' %}">検索画面に戻る</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">ログアウト</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    <main role="main" style="flex: 1;">
+        <div class="py-4 p-2 bg-light">
+            <div class="container">
+                {% for apartment in user.favorite_apartment.all %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 my-auto">
+                                <img class="card-img"
+                                     src="{{ apartment.appearance }}"
+                                     alt="Card image cap">
+                            </div>
+                            <div class="col-md-8 my-auto">
+                                <div class="card-body">
+                                    <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                                    <p class="card-text">{{ apartment.name }}</p>
+                                    <p class="card-text">{{ apartment.address }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- <small class="text-muted">9 mins</small> -->
+                                        <small class="text-muted">築年数：{{ apartment.age }}年</small>
+
+                                        <div>
+                                            <div class="d-inline"
+                                                 onclick="switcher(apartment_id='{{ apartment.id }}')">
+                                                {% if apartment in user.favorite_apartment.all %}
+                                                    <i class="fas fa-heart fa-lg fa-fw red pointer"
+                                                       id="heart{{ apartment.id }}"></i>
+                                                {% else %}
+                                                    <i class="far fa-heart fa-lg fa-fw gray pointer"
+                                                       id="heart{{ apartment.id }}"></i>
+                                                {% endif %}
+                                            </div>
+                                            {% if apartment in user.favorite_apartment.all %}
+                                                <small class="d-inline text-danger font-weight-bold"
+                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
+                                                    いいね</small>
+                                            {% else %}
+                                                <small class="d-inline text-muted"
+                                                       id="likeNum{{ apartment.id }}">{{ apartment.goodNumber }}
+                                                    いいね</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>部屋番号</th>
+                                <th>賃料</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in apartment.room_set.all %}
+                                <tr>
+                                    <td width="40%">{{ room.number }}</td>
+                                    <td width="40%">{{ room.rent }}万円</td>
+                                    <td width="20%" align="center">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="location.href='{% url 'apartment:detail' room.pk %}'">
+                                            詳細
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+
+{% block customscript %}
+    <script type="text/javascript">
+        let state_data = {};
+        let likeNum_except_me_data = {};
+        {% for apartment in user.favorite_apartment.all %}
+            state_data['{{ apartment.id }}'] = 1;
+            likeNum_except_me_data['{{ apartment.id }}'] = Number({{ apartment.goodNumber }} -1);
+        {% endfor %}
+        console.log(state_data);
+        console.log(likeNum_except_me_data);
+
+        function switcher(apartment_id) {
+            let elementIcon = document.getElementById("heart" + apartment_id)
+            let elementLike = document.getElementById("likeNum" + apartment_id)
+            if (state_data[apartment_id] == 1) {
+                not_like(apartment_id);
+                changeIcon(elementIcon, 0);
+                changeLikeNum(elementLike, 0, apartment_id);
+                state_data[apartment_id] = 0;
+            } else {
+                like(apartment_id);
+                changeIcon(elementIcon, 1);
+                changeLikeNum(elementLike, 1, apartment_id);
+                state_data[apartment_id] = 1;
+            }
+        }
+
+        function changeLikeNum(element, next, apartment_id) {
+            if (element.style.opacity == '') {
+                element.styleopacity = 1;
+            }
+            let opacityInt = element.style.opacity * 100;
+            //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+            let intervalId = setInterval(() => {
+                opacityInt = opacityInt - 50;
+                element.style.opacity = opacityInt / 100;
+
+                if (element.style.opacity <= 0) {
+                    clearInterval(intervalId);
+                    //画像を交換
+                    if (next == 1) {
+                        element.className = "d-inline text-danger font-weight-bold";
+                        element.innerHTML = String(likeNum_except_me_data[apartment_id] + 1) + " いいね";
+                    } else {
+                        element.className = "d-inline text-muted";
+                        element.innerHTML = String(likeNum_except_me_data[apartment_id]) + " いいね";
+                    }
+
+                    opacityInt = element.style.opacity * 100;
+                    //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                    intervalId = setInterval(() => {
+                        opacityInt = opacityInt + 50;
+                        element.style.opacity = opacityInt / 100;
+                        if (element.style.opacity >= 1) {
+                            clearInterval(intervalId);
+                        }
+                    }, 100);
+                }
+            }, 100);
+        }
+
+        function changeIcon(element, next) {
+            if (element.style.opacity == '') {
+                element.styleopacity = 1;
+            }
+            let opacityInt = element.style.opacity * 100;
+            //フェードアウトの処理（opacityを100ミリ秒ごとに0.5づつ減らす）
+            let intervalId = setInterval(() => {
+                opacityInt = opacityInt - 50;
+                element.style.opacity = opacityInt / 100;
+
+                if (element.style.opacity <= 0) {
+                    clearInterval(intervalId);
+                    //画像を交換
+                    if (next == 1) {
+                        element.className = "fas fa-heart fa-lg fa-fw red pointer";
+                    } else {
+                        element.className = "far fa-heart fa-lg fa-fw gray pointer";
+                    }
+
+                    opacityInt = element.style.opacity * 100;
+                    //フェードインの処理（opacityを100ミリ秒ごとに0.5づつ増やす）
+                    intervalId = setInterval(() => {
+                        opacityInt = opacityInt + 50;
+                        element.style.opacity = opacityInt / 100;
+                        if (element.style.opacity >= 1) {
+                            clearInterval(intervalId);
+                        }
+                    }, 100);
+                }
+            }, 100);
+        }
+
+        async function like(apartment_id) {
+            let response = await fetch('{% url 'accounts:like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+            console.log(response);
+        }
+
+        async function not_like(apartment_id) {
+            let response = await fetch('{% url 'accounts:not_like' %}?user_id={{ user.id }}&apartment_id=' + apartment_id);
+            console.log(response);
+        }
+    </script>
+{% endblock customscript %}
