@@ -23,9 +23,11 @@
 
 {% block header %}
     <header>
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">{{ user.username }}さんのマイページへようこそ</h4>
-            <p>ここでは{{ user.username }}さんが今まで【いいね】をした物件を一覧で見ることができます。</p>
+        <div class="alert alert-success pt-4" role="alert">
+            <div class="container">
+                <h3 class="alert-heading">{{ user.username }}さんのマイページへようこそ</h3>
+                <p>ここでは{{ user.username }}さんが今まで【いいね】をした物件を一覧で見ることができます。</p>
+            </div>
             <hr>
             <ul class="nav  justify-content-end">
                 <li class="nav-item">

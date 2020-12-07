@@ -37,8 +37,11 @@
 
 <div class="py-4 p-2 bg-light" style="display: flex; flex: 1;">
     <nav style="min-width: 195px; width: 20%; margin: 0 auto;">
+        <div class="pb-2" onclick="location.href='{% url 'accounts:my_page' %}'">
+            <button type="button" class="btn btn-outline-dark btn-block">マイページへ移動</button>
+        </div>
         <div class="rounded-lg bg-warning p-2">
-            <h5 class="text-secondary font-weight-bold p-2">詳細検索</h5>
+            <h5 class="text-secondary font-weight-bold">詳細検索</h5>
             <form action="" method="GET">
                 <ul style="list-style: none; padding-left: 0;">
                     <li>
