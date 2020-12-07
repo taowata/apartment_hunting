@@ -15,7 +15,7 @@ def register_func(request):
             return render(request, 'accounts/register.html', {'error': 'このユーザーは登録されています'})
         except:
             User.objects.create_user(temp_username, '', temp_password)
-            return redirect('/accounts/login')
+            return redirect('accounts:login')
     else:
         return render(request, 'accounts/register.html')
 
@@ -90,3 +90,7 @@ def remove_favorite_apartment_func(request):
         return HttpResponse("error: failed to update Apartment.goodNumber")
     print("succeeded")
     return HttpResponse("succeeded")
+
+
+def mypage_func(request):
+    return render(request, 'accounts/mypage.html')
