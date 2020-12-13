@@ -1,9 +1,20 @@
-# apartment_hunting
+# お家探しサイト
+## URL
+http://taowata.work/
 
-# 前提事項
+## 機能一覧
+
+- ユーザー登録、ログイン
+- ゲストログイン
+- 絞り込み検索機能
+- 不動産へのいいね機能(Ajax)
+- いいね数を動的に表示する機能(Ajax)
+- レスポンシブデザイン
+
+
+# 開発環境構築手順
+### 前提事項
 - Dockerがインストール済みであること。
-
-# 環境構築手順
 ### リポジトリのクローン
 - このリポジトリをforkする。
 - forkしたリポジトリをローカルにcloneする。
@@ -51,21 +62,3 @@ $ docker-compose exec db bash
 ```
 postgres=# \dt
 ```
-
-# GitFlowの予備知識
-
-- master
-  - プロダクトとしてリリースするためのブランチ。リリースしたらタグ付けする。
-- develop
-  - 開発ブランチ。コードが安定し、リリース準備ができたら master へマージする。リリース前はこのブランチが最新バージョンとなる。
-- feature
-  - 機能の追加。 develop から分岐し、 develop にマージする。
-- release
-  - プロダクトリリースの準備。develop ブランチにリリース予定の機能やバグフィックスがほぼ反映した状態で develop から分岐する。 リリース準備が整ったら, master にマージし、タグをつける。次に develop にマージする。
-- hotfix
-  - リリース後のクリティカルなバグフィックスなど、 現在のプロダクトのバージョンに対する変更用。 master から分岐し、 master にマージし、タグをつける。次に develop にマージする。
-
-<img src="https://user-images.githubusercontent.com/46508203/77295789-e4ec4e80-6d29-11ea-8608-1f24618d6b0f.png" width="500px">
-
-- [git初心者への道 - お仕事で困らないレベルまでググっとします。 · GitHub](https://gist.github.com/yatemmma/6486028)
-- [ Branchについて](https://havelog.ayumusato.com/develop/git/e513-git_branch_model.html)
