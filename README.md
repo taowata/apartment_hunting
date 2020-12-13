@@ -38,6 +38,8 @@ http://taowata.work/
 
 ## ER図
 
+<img width="756" alt="スクリーンショット 2020-12-14 1 18 42" src="https://user-images.githubusercontent.com/57245344/102017466-72853800-3daa-11eb-849e-ff3718344d18.png">
+
 
 # 開発環境構築手順
 ### 前提事項
