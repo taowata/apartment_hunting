@@ -1,5 +1,8 @@
 # お部屋探しサイト
 ## URL
+
+AWS EC2
+
 http://taowata.work/
 
 ## 機能一覧
